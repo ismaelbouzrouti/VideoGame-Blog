@@ -10,15 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id('userId');
+        Schema::create('contact_forms', function (Blueprint $table) {
+            $table->id('formId');
+            $table->foreignId('userId')->constrained('users', 'userId');
             $table->string('username');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->date('birthday');
-            $table->string('avatar')->nullable();
-            $table->text('short_bio')->nullable();
-            $table->boolean('isAdmin')->default(false);
+            $table->string('subject');
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('contact_forms');
     }
 };
