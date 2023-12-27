@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -16,9 +17,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        // fetch the data of current user
+        $user = $request->user();
+
+        return view('profile.edit', compact('user'));
     }
 
     /**
@@ -48,7 +50,10 @@ class ProfileController extends Controller
             $originalFileName = $request->file('avatar')->getClientOriginalName();
 
             // Generate a unique file name
-            $avatarFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . '_' . time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+            $tempFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . '_' . time() . '.' . $request->file('avatar')->getClientOriginalExtension();
+
+            //replace spaces with an underscore
+            $avatarFileName = str_replace(' ', '_', $tempFileName);
 
             // Store the file on the webserver with a custom name
             $request->file('avatar')->storeAs('avatars', $avatarFileName, 'public');
@@ -90,4 +95,6 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
 }
