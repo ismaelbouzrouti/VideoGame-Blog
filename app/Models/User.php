@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
@@ -17,7 +18,10 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    protected $primaryKey = 'userId';
     protected $fillable = [
+
         'username',
         'email',
         'password',
@@ -26,6 +30,8 @@ class User extends Authenticatable
         'short_bio',
         'isAdmin',
     ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -49,11 +55,11 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Post::class, 'userId', 'userId');
     }
 
     public function contactForms()
     {
-        return $this->hasMany(ContactForm::class);
+        return $this->hasMany(ContactForm::class, 'userId', 'userId');
     }
 }

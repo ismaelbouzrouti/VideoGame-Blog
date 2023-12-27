@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string('username');
             $table->string('email')->unique();
             $table->string('password');
-            $table->date('birthday');
+            $table->date('birthday')->nullable();
             $table->string('avatar')->nullable();
             $table->text('short_bio')->nullable();
             $table->boolean('isAdmin')->default(false);
