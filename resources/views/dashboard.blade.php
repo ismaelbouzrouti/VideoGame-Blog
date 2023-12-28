@@ -28,7 +28,7 @@
                     @else
                     <ul>
                         @foreach($users as $user)
-                        <li><a href="{{ route('profile.show', $user) }}">{{ $user->username }}</a></li>
+                        <li><a href="{{ route('profile.profile', $user) }}">{{ $user->username }}</a></li>
                         @endforeach
                     </ul>
                     @endif
