@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,7 @@ Route::get('/', function () {
 
 
 
-
+//routes for authenticated users
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -31,6 +32,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
     Route::get('/profile/{user}', [DashboardController::class, 'showProfile'])->name('profile.profile');
+
+});
+
+
+//routes for admins
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get('/posts', [PostController::class, 'showPostForm'])->name('posts');
 
 });
 

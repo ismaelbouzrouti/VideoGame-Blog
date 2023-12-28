@@ -33,6 +33,13 @@
                     </ul>
                     @endif
                     @endif
+
+                    <!-- Admin-only "Posts" button and link -->
+                    @if(auth()->user()->isAdmin)
+                    <div class="mt-4">
+                        <a href="{{ route('posts') }}" class="text-blue-500">Posts</a>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
