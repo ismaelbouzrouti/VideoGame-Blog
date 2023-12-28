@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $search = $request->input('search');
 
         //we use it in the query
-        $users = User::where('username', 'ilike', '%' . $search . '%')->get();
+        $users = User::where('username', 'like', '%' . $search . '%')->get();
 
         return view('dashboard', compact('users', 'search'));
     }

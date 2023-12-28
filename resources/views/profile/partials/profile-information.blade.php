@@ -11,13 +11,23 @@
         <div>
             <p>{{ __('Username: ') }} {{ $user->username }}</p>
             <p>{{ __('Email: ') }} {{ $user->email }}</p>
+            @if($user->birthday)
             <p>{{ __('Birthday: ') }} {{ $user->birthday }}</p>
+            @else
+            <p>{{ __('Birthday: No birthday was provided') }}</p>
+            @endif
+
             @if ($user->avatar)
             <p>{{ __('Avatar: ') }} <img src="{{ asset($user->avatar) }}" alt="Avatar"></p>
             @else
-            <p>{{ __('Avatar: You did not upload an avatar') }}</p>
+            <p>{{ __('Avatar: No avatar was uploaded') }}</p>
             @endif
+
+            @if($user->short_bio)
             <p>{{ __('Short_bio: ') }} {{ $user->short_bio }}</p>
+            @else
+            <p>{{ __('Short_bio: No bio was provided') }}</p>
+            @endif
         </div>
     </header>
 
