@@ -29,6 +29,17 @@
             <p>{{ __('Short_bio: No bio was provided') }}</p>
             @endif
         </div>
+
+        <div>
+            @auth
+            @if(auth()->user()->isAdmin && !$user->isAdmin)
+            <form action="{{ route('users.promote', $user) }}" method="POST">
+                @csrf
+                <button type="submit">Promote to Admin</button>
+            </form>
+            @endif
+            @endauth
+        </div>
     </header>
 
 
