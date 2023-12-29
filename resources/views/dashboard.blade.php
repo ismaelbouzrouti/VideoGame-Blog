@@ -1,8 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+
+            @if(auth()->user()->isAdmin)
+            <a href="{{ route('posts') }}" class="text-blue-500">Create a post</a>
+            @endif
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -13,14 +19,13 @@
                         {{ __('Search Users') }}
                     </h2>
 
-
                     <form action="{{ route('dashboard.search') }}" method="POST">
                         @csrf
                         <input type="text" name="search" placeholder="Search users...">
                         <button type="submit">Search</button>
                     </form>
 
-                    <!-- showing the search sesults -->
+                    <!-- showing the search results -->
                     @if(isset($search))
                     <h3>Search Results for "{{ $search }}":</h3>
                     @if($users->isEmpty())
@@ -33,13 +38,22 @@
                     </ul>
                     @endif
                     @endif
+                </div>
 
-                    <!-- Admin-only "Posts" button and link -->
-                    @if(auth()->user()->isAdmin)
-                    <div class="mt-4">
-                        <a href="{{ route('posts') }}" class="text-blue-500">Posts</a>
+                <div class="max-w-xl mt-8">
+                    <h2 class="text-lg font-medium text-gray-900">
+                        {{ __('Posts') }}
+                    </h2>
+
+                    @foreach ($posts as $post)
+                    <div class="bg-gray-100 p-4 mb-4">
+                        <h3 class="text-xl font-bold">{{ $post->title }}</h3>
+                        <p class="text-sm text-gray-500">{{ $post->publishing_date }}</p>
+                        <img src="{{ asset($post->cover_image) }}" alt="{{ $post->title }}"
+                            class="post-cover-image mt-2">
+                        <div class="mt-2">{{ $post->content }}</div>
                     </div>
-                    @endif
+                    @endforeach
                 </div>
             </div>
         </div>

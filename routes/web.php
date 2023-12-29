@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/posts', [PostController::class, 'showPostForm'])->name('posts');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 
 });
 

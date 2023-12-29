@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Post;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        //retrieving posts by publishing date so i can show them on the blade in chronological order
+        $posts = Post::OrderBy('publishing_date', 'desc')->get();
+
+        return view('dashboard', compact('posts'));
     }
 
     public function search(Request $request)
