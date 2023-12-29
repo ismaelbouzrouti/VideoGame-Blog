@@ -35,11 +35,19 @@
             @if(auth()->user()->isAdmin && !$user->isAdmin)
             <form action="{{ route('users.promote', $user) }}" method="POST">
                 @csrf
-                <button type="submit">Promote to Admin</button>
+                <button type="submit" class="bg-green-500 text-white border border-green-500 px-4 py-2 rounded">Promote
+                    {{ $user->username }}
+                    to Admin</button>
             </form>
             @endif
             @endauth
         </div>
+        @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Success!</strong>
+            <span class="block sm:inline">{{ session('success') }}</span>
+        </div>
+        @endif
     </header>
 
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     //delete post
     Route::delete('post/{post}', [PostController::class, 'deletePost'])->name('posts.delete');
+
+    //promote user to admin
+    Route::post('/users/{user}/promote', [UserController::class, 'promoteUser'])->name('users.promote');
 
 });
 
