@@ -39,8 +39,16 @@ Route::middleware('auth')->group(function () {
 //routes for admins
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::get('/posts', [PostController::class, 'showPostForm'])->name('posts');
+    //create post
+    Route::get('/posts/create', [PostController::class, 'showPostForm'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
+    //edit post
+    Route::get('/posts/{post}/edit', [PostController::class, 'editPost'])->name('posts.edit');
+    Route::put('/posts/{post}', [PostController::class, 'updatePost'])->name('posts.update');
+
+    //delete post
+    Route::delete('post/{post}', [PostController::class, 'deletePost'])->name('posts.delete');
 
 });
 
