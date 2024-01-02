@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FaqController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
     Route::get('/profile/{user}', [DashboardController::class, 'showProfile'])->name('profile.profile');
 
+    //faq
+
+    Route::get('/faq', [FaqController::class, 'showFaqPage'])->name('faq.faqPage');
+
 });
 
 
@@ -53,6 +58,28 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     //promote user to admin
     Route::post('/users/{user}/promote', [UserController::class, 'promoteUser'])->name('users.promote');
+
+
+
+
+    //category form
+    Route::get('/faq/create', [FaqController::class, 'createCategory'])->name('faq.create-category');
+
+    //store category
+    Route::post('/faq/create/store', [FaqController::class, 'storeCategory'])->name('faq.store-category');
+
+    //item form
+    Route::get('/faq/{category}/create-item', [FaqController::class, 'createItem'])->name('faq.create-item');
+
+    //item store
+    Route::post('/faq/{category}/create-item', [FaqController::class, 'storeItem'])->name('faq.store-item');
+
+    //delete category
+    Route::delete('/faq/category/{category}', [FaqController::class, 'deleteCategory'])->name('faq.delete-category');
+
+    // Delete Item
+    Route::delete('/faq/item/{item}', [FaqController::class, 'deleteItem'])->name('faq.delete-item');
+
 
 });
 
