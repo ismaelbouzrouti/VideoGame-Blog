@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{user}', [DashboardController::class, 'showProfile'])->name('profile.profile');
 
     //faq
-
     Route::get('/faq', [FaqController::class, 'showFaqPage'])->name('faq.faqPage');
+
 
 });
 
@@ -80,6 +81,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Delete Item
     Route::delete('/faq/item/{item}', [FaqController::class, 'deleteItem'])->name('faq.delete-item');
 
+    //admin contact page
+    Route::get('/contactAdmin', [ContactController::class, 'showAdminContactPage'])->name('contact.contactAdminPage');
+
+
+});
+
+// routes for authenticated users who are not admin
+Route::middleware(['auth', 'notAdmin'])->group(function () {
+    //contact
+    Route::get('/contact', [ContactController::class, 'showContact'])->name('contact.contactPage');
+
+    Route::post('/contact/send', [ContactController::class, 'storeContactForm'])->name('contact.store');
 
 });
 

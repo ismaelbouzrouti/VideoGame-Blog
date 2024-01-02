@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleWare
+class NotAdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,22 +16,13 @@ class AdminMiddleWare
     public function handle(Request $request, Closure $next): Response
     {
 
-        //check if user is an admin, only an admin request passes
-        if ($request->user() && $request->user()->isAdmin == 1) {
-
+        // first check if the user is authenticated and not an admin
+        if ($request->user() && !$request->user()->isAdmin) {
             return $next($request);
-        } else {
-
-            // if user is not admin or not auth
-            return redirect('/dashboard');
         }
 
-
-
-
+        // if user is admin or not auth
+        return redirect('/dashboard');
     }
-
-
-
-
 }
+
