@@ -62,7 +62,7 @@ class ProfileController extends Controller
 
             // Save the file path in the database
             $user->fill([
-                'avatar' => 'avatars/' . $avatarFileName
+                'avatar' => 'storage/' . 'avatars/' . $avatarFileName
             ]);
         }
 

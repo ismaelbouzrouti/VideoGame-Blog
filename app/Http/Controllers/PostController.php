@@ -51,7 +51,7 @@ class PostController extends Controller
         $post = $request->user()->posts()->create([
             'title' => $request->title,
             'content' => $request->content,
-            'cover_image' => 'avatars/' . $coverImageFileName,
+            'cover_image' => 'storage/' . 'avatars/' . $coverImageFileName,
             'publishing_date' => now()
         ]);
 

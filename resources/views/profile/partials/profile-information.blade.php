@@ -18,7 +18,11 @@
             @endif
 
             @if ($user->avatar)
-            <p>{{ __('Avatar: ') }} <img src="{{ asset($user->avatar) }}" alt="Avatar"></p>
+            <p class="mt-4">{{ __('Avatar: ') }}
+            <div class="rounded-full overflow-hidden h-20 w-20">
+                <img class="h-full w-full object-cover" src="{{ asset($user->avatar) }}" alt="Avatar">
+            </div>
+            </p>
             @else
             <p>{{ __('Avatar: No avatar was uploaded') }}</p>
             @endif
@@ -36,8 +40,7 @@
             <form action="{{ route('users.promote', $user) }}" method="POST">
                 @csrf
                 <button type="submit" class="bg-green-500 text-white border border-green-500 px-4 py-2 rounded">Promote
-                    {{ $user->username }}
-                    to Admin</button>
+                    {{ $user->username }} to Admin</button>
             </form>
             @endif
             @endauth
@@ -49,8 +52,4 @@
         </div>
         @endif
     </header>
-
-
-
-
 </section>
