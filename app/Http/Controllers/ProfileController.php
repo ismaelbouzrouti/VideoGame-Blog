@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use App\Models\User;
 
@@ -30,6 +31,14 @@ class ProfileController extends Controller
     {
 
         $user = $request->user();
+
+        $request->validate([
+            'name' => 'required|string',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)], //make sure we don't have double emails in db
+            'birthday' => 'date',
+            'short_bio' => 'string',
+            'avatar' => 'image|mimes:jpeg,png,jpg',
+        ]);
 
 
 
