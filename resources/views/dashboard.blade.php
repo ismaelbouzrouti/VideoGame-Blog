@@ -5,7 +5,7 @@
                 {{ __('Dashboard') }}
             </h2>
 
-            @if(auth()->user()->isAdmin)
+            @if(auth()->check() && auth()->user()->isAdmin)
             <a href="{{ route('posts.create') }}" class="text-blue-500">Create a post</a>
             @endif
         </div>
@@ -52,8 +52,9 @@
                         <img src="{{ asset($post->cover_image) }}" alt="{{ $post->title }}"
                             class="post-cover-image mt-2">
                         <div class="mt-2">{{ $post->content }}</div>
+
                         <!-- Admin-only buttons for editing and deleting -->
-                        @if(auth()->user()->isAdmin)
+                        @if(auth()->check() && auth()->user()->isAdmin)
                         <div class="mt-2">
                             <a href="{{ route('posts.edit',['post' => $post->postId]) }}" class="text-blue-500">Edit</a>
                             <form action="{{ route('posts.delete', ['post' => $post->postId]) }}" method="POST"
