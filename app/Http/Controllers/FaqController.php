@@ -12,16 +12,7 @@ class FaqController extends Controller
     {
 
 
-        $categories = FaqCategory::leftJoin('faq_items', 'faq_categories.categoryId', '=', 'faq_items.categoryId')
-            ->select(
-                'faq_categories.categoryId',
-                'faq_categories.categoryName',
-                'faq_items.itemId',
-                'faq_items.question',
-                'faq_items.answer',
-
-            )
-            ->get();
+        $categories = FaqCategory::with('faqItems')->get();
 
         return view('faq.faqPage', compact('categories'));
 
