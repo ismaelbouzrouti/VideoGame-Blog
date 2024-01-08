@@ -19,31 +19,49 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+
+//routes for visitors only
+Route::middleware('guest')->group(function () {
+
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
 });
 
 
 
+//routes for visitors and authenticated users
+Route::get('/about', function () {
+    return view('about-page');
+})->name('aboutPage');
 
-//routes for authenticated users
+//searching and seeing users profile
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::post('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
+Route::get('/profile/{user}', [DashboardController::class, 'showProfile'])->name('profile.profile');
+
+//faq
+Route::get('/faq', [FaqController::class, 'showFaqPage'])->name('faq.faqPage');
+
+//contact
+Route::get('/contact', [ContactController::class, 'showContact'])->name('contact.contactPage');
+Route::post('/contact/send', [ContactController::class, 'storeContactForm'])->name('contact.store');
+
+
+
+//routes for authenticated users only
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::post('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
-    Route::get('/profile/{user}', [DashboardController::class, 'showProfile'])->name('profile.profile');
-
-    //faq
-    Route::get('/faq', [FaqController::class, 'showFaqPage'])->name('faq.faqPage');
-
-
 });
 
 
-//routes for admins
+//routes for admins only
 Route::middleware(['auth', 'admin'])->group(function () {
 
     //create post
@@ -84,15 +102,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     //admin contact page
     Route::get('/contactAdmin', [ContactController::class, 'showAdminContactPage'])->name('contact.contactAdminPage');
 
-
-});
-
-// routes for authenticated users who are not admin
-Route::middleware(['auth', 'notAdmin'])->group(function () {
-    //contact
-    Route::get('/contact', [ContactController::class, 'showContact'])->name('contact.contactPage');
-
-    Route::post('/contact/send', [ContactController::class, 'storeContactForm'])->name('contact.store');
 
 });
 
