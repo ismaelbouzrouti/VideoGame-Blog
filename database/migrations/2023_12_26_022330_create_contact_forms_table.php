@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('contact_forms', function (Blueprint $table) {
             $table->id('formId');
-            $table->foreignId('userId')->constrained('users', 'userId');
+            $table->foreignId('userId')->nullable()->constrained('users', 'userId');
             $table->string('username');
             $table->string('subject');
             $table->text('message');

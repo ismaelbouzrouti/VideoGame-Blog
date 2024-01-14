@@ -27,18 +27,24 @@
 
                     <!-- showing the search results -->
                     @if(isset($search))
-                    <h3>Search Results for "{{ $search }}":</h3>
+                    <h3 class="mt-4">Search Results for "{{ $search }}":</h3>
                     @if($users->isEmpty())
-                    <p>No users found.</p>
+                    <p class="text-gray-500">No users found.</p>
                     @else
                     <ul>
                         @foreach($users as $user)
-                        <li><a href="{{ route('profile.profile', $user) }}">{{ $user->username }}</a></li>
+                        <li>
+                            <a href="{{ route('profile.profile', $user) }}"
+                                class="text-blue-500 hover:underline hover:text-blue-700">
+                                {{ $user->username }}
+                            </a>
+                        </li>
                         @endforeach
                     </ul>
                     @endif
                     @endif
                 </div>
+
 
                 <div class="max-w-xl mt-8">
                     <h2 class="text-lg font-medium text-gray-900">

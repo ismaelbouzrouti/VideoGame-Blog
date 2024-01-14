@@ -18,33 +18,59 @@ class ContactController extends Controller
 
     public function storeContactForm(Request $request)
     {
+        if ($request->user()) {
 
-        $request->validate([
+            $request->validate([
 
-            'username' => 'required|string',
-            'subject' => 'required|string',
-            'message' => 'required|string'
+                'username' => 'required|string',
+                'subject' => 'required|string',
+                'message' => 'required|string'
 
-        ]);
+            ]);
 
-        // First check if the provided username is equal to the user's username
-        if ($request->user()->username !== $request->username) {
-            return redirect()->back()->with('error', 'Give your correct username!');
+            // First check if the provided username is equal to the user's username
+            if ($request->user()->username !== $request->username) {
+                return redirect()->back()->with('error', 'Give your correct username!');
+            }
+
+
+            $contact = $request->user()->contactforms()->create([
+                'userId' => $request->user()->userId,
+                'username' => $request->username,
+                'subject' => $request->subject,
+                'message' => $request->message
+            ]);
+
+
+            $contact->save();
+
+            return redirect()->back()->with('success', 'message was sent');
+        } else {
+
+            $request->validate([
+                'email' => 'required|string',
+                'subject' => 'required|string',
+                'message' => 'required|string'
+            ]);
+
+            $username = $request->input('email');
+            $userId = null;
+
+
+            $contact = ContactForm::create([
+                'userId' => $userId,
+                'username' => $username,
+                'subject' => $request->input('subject'),
+                'message' => $request->input('message')
+            ]);
+
+            $contact->save();
+
+            return redirect()->back()->with('success', 'message was sent');
+
         }
-
-
-        $contact = $request->user()->contactforms()->create([
-            'userId' => $request->user()->userId,
-            'username' => $request->username,
-            'subject' => $request->subject,
-            'message' => $request->message
-        ]);
-
-
-        $contact->save();
-
-        return redirect()->back()->with('success', 'message was sent');
     }
+
 
     public function showAdminContactPage()
     {

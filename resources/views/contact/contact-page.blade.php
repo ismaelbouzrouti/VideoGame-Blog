@@ -9,18 +9,23 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
 
-
                 <form method="POST" action="{{ route('contact.store') }}">
                     @csrf
 
-
-
-
+                    @if(auth()->check())
+                    <!-- user is authenticated username field is shown -->
                     <div class="mt-4">
                         <label for="username" class="block text-sm font-medium text-gray-700">Your Username</label>
                         <input type="text" name="username" id="username" class="form-input mt-1 block w-full"
                             required />
                     </div>
+                    @else
+                    <!-- user is not authenticated email field is shown -->
+                    <div class="mt-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Your Email</label>
+                        <input type="email" name="email" id="email" class="form-input mt-1 block w-full" required />
+                    </div>
+                    @endif
 
                     <div class="mt-4">
                         <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
