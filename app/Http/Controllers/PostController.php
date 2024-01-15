@@ -97,6 +97,10 @@ class PostController extends Controller
             // Store the file on the webserver with a custom name
             $request->file('cover_image')->storeAs('avatars', $coverImageFileName, 'public');
 
+            //store in db
+
+            $post->cover_image = 'storage/' . 'avatars/' . $coverImageFileName;
+
         }
 
         $post->save();
